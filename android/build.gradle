@@ -1,0 +1,29 @@
+buildscript {
+    repositories {
+        google()  // Ensure Google's repository is included
+        mavenCentral()
+    }
+
+    dependencies {
+        // Make sure you are using the correct version of Google Services plugin
+        classpath 'com.google.gms:google-services:4.3.15'  // Replace with the latest stable version
+    }
+}
+
+allprojects {
+    repositories {
+        google()  // Google's repository for Firebase and other dependencies
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"  // Define the root project build directory
+
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"  // Each subproject's build directory
+    project.evaluationDependsOn(":app")  // Ensure evaluation happens for the app project
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir  // Clean task to delete the build directory
+}
